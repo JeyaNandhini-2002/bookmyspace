@@ -91,7 +91,7 @@
       </div>
     </div>
 
-    <form id="bookingForm" action="login.html" method="POST">
+    <form id="bookingForm" action="view.html" method="POST">
         <input type="hidden" id="selected_date" name="selected_date">
         <input type="hidden" id="selected_time_slot" name="selected_time_slot">
         <input type="hidden" id="selected_seats" name="selected_seats">
@@ -143,7 +143,7 @@
       event.preventDefault();
       const selectedDate = document.getElementById('selected_date').value;
       const selectedTimeSlot = document.getElementById('selected_time_slot').value;
-      var url = "login.html?selected_seats=" + encodeURIComponent(selectedSeatNumber) + "&selected_date=" + encodeURIComponent(selectedDate) + "&selected_time_slot=" + encodeURIComponent(selectedTimeSlot);
+      var url = "view.html?selected_seats=" + encodeURIComponent(selectedSeatNumber) + "&selected_date=" + encodeURIComponent(selectedDate) + "&selected_time_slot=" + encodeURIComponent(selectedTimeSlot);
       window.location.href = url;
     });
   </script>
