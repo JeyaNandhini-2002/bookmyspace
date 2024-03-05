@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seat Booking</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+    }
+
+    input[type="date"],
+    input[type="time"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+
+    .seats {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .seat {
+      width: 50px;
+      height: 50px;
+      margin: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .booked {
+      background-color: #ff0000;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Seat Booking</h2>
+    <div class="form-group">
+      <label for="schedule_date">Select Date:</label>
+      <input type="date" id="schedule_date" name="schedule_date" required>
+    </div>
+    <div class="form-group">
+      <button onclick="showSeats('9am-6pm')">9 AM - 6 PM</button>
+      <button onclick="showSeats('10am-7pm')">10 AM - 7 PM</button>
+    </div>
+
+    <div id="seatsContainer" style="display: none;">
+      <div class="seats" id="seats">
+      </div>
+    </div>
+
+    <form id="bookingForm" action="login.html" method="POST">
+        <input type="hidden" id="selected_date" name="selected_date">
+        <input type="hidden" id="selected_time_slot" name="selected_time_slot">
+        <input type="hidden" id="selected_seats" name="selected_seats">
+        <input type="submit" value="Submit">
+      </form>
+  </div>
+
+  <script>
+    function showSeats(timeSlot) {
+      const selectedDate = document.getElementById('schedule_date').value;
+      console.log(selectedDate)
+      if (!selectedDate) {
+        alert('Please select a date.');
+        return;
+      }
+
+      document.getElementById('selected_date').value = selectedDate;
+      document.getElementById('selected_time_slot').value = timeSlot;
+
+      document.getElementById('seatsContainer').style.display = 'block';
+      document.getElementById('seats').innerHTML = '';
+      const seatsContainer = document.getElementById('seats');
+      const totalSeats = 10;
+      for (let i = 1; i <= totalSeats; i++) {
+        const seat = document.createElement('div');
+        seat.textContent = 'S' + i;
+        seat.classList.add('seat');
+        seat.addEventListener('click', bookSeat);
+        seatsContainer.appendChild(seat);
+      }
+    }
+
+    let selectedSeatNumber = null;
+
+    function bookSeat(event) {
+      if (selectedSeatNumber) {
+        const prevSelectedSeat = document.querySelector('.seat.booked');
+        prevSelectedSeat.classList.remove('booked');
+        prevSelectedSeat.addEventListener('click', bookSeat);
+      }
+      selectedSeatNumber = event.target.textContent;
+      const selectedSeatsInput = document.getElementById('selected_seats');
+      selectedSeatsInput.value = selectedSeatNumber;
+      event.target.classList.add('booked');
+      event.target.removeEventListener('click', bookSeat);
+    }
+
+    document.getElementById("bookingForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      const selectedDate = document.getElementById('selected_date').value;
+      const selectedTimeSlot = document.getElementById('selected_time_slot').value;
+      var url = "login.html?selected_seats=" + encodeURIComponent(selectedSeatNumber) + "&selected_date=" + encodeURIComponent(selectedDate) + "&selected_time_slot=" + encodeURIComponent(selectedTimeSlot);
+      window.location.href = url;
+    });
+  </script>
+</body>
+</html>

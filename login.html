@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Office Seating Management</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
+
+    .card {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin: 10px;
+      padding: 20px;
+      width: 200px;
+    }
+
+    .card h2 {
+      color: #333;
+      font-size: 20px;
+      margin-top: 0;
+    }
+
+    .card p {
+      color: #666;
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="seatDetails">
+    <h2>Seat Number: </h2>
+    <p>Date: </p>
+    <p>Time: </p>
+  </div>
+
+  <script>
+    function getParameterByName(name, url) {
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, "\\$&");
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+          results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+    var seatNumber = getParameterByName('selected_seats');
+    var selectedDate = getParameterByName('selected_date');
+    var selectedTime = getParameterByName('selected_time_slot');
+    console.log(seatNumber)
+    console.log(selectedDate)
+    console.log(selectedTime)
+    var card = document.getElementById('seatDetails');
+    if (card) {
+      card.querySelector('h2').textContent += seatNumber || '';
+      card.querySelector('p:nth-of-type(1)').textContent += selectedDate || '';
+      card.querySelector('p:nth-of-type(2)').textContent += selectedTime || '';
+    }
+  </script>
+</body>
+</html>
